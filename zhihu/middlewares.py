@@ -4,7 +4,7 @@
 #
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
-from getCookie import cookie
+from zhihu.getCookie import cookie
 from scrapy import signals
 
 class CookiesMiddleware(object):

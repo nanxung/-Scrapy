@@ -15,9 +15,12 @@ class ZhihuItem(scrapy.Item):
 
 class UserItem(scrapy.Item):
     """
-    知乎用户的用户名，所在行业，职业经历，教育经历，个人简介
+    知乎用户的用户名，居住地，所在行业，职业经历，教育经历，个人简介
     """
+    Id=Field()
+    Url=Field()
     Nick_name=Field()
+    Home_Position=Field()
     Compmany=Field()
     Edu=Field()
     Content=Field()

@@ -39,10 +39,17 @@ DOWNLOAD_DELAY = 2
 #TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#   'Accept-Language': 'en',
-#}
+DEFAULT_REQUEST_HEADERS = {
+    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Encoding':'gzip, deflate, sdch, br',
+    'Accept-Language':'zh-CN,zh;q=0.8',
+    'Connection':'keep-alive',
+    'Host':'www.zhihu.com',
+    'Origin':'https://www.zhihu.com',
+    'Referer':'https://www.zhihu.com/',
+    'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+    'x-hd-token':'hello',
+}
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
@@ -53,7 +60,7 @@ DOWNLOAD_DELAY = 2
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'zhihu.middlewares.MyCustomDownloaderMiddleware': 543,
+  # 'zhihu.middlewares.MyCustomDownloaderMiddleware': 543,
    'zhihu.middlewares.CookiesMiddleware':402,
 }
 
