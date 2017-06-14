@@ -7,16 +7,22 @@ class ZhSpider(scrapy.Spider):
     allowed_domains = ['zhihu.com']
     start_urls = ['http://zhihu.com/']
     url='http://www.zhihu.com/'
-    start_urls=['ruan-fu-zhong-tong-zhi','mu-huan-98']
+    start_urls=['ruan-fu-zhong-tong-zhi','mu-huan-98',
+    'zeus871219','a-li-ai-di-10','dyxxg','hao-er-8',
+    'liu-miao-miao-47-17','peng-chen-xi-39','song-ling-shi-liao-63-56']
     task_set=set(start_urls)
     tasked_set=set()
 
 
     def start_requests(self):
         while len(self.task_set)>0:
+            print("**********start用户库**********")
+            print(str(self.task_set))
+            print("********************")
             id=self.task_set.pop()
-            if id in self.task_set:
-                raise CloseSpider(reason="已经存在的数据 %s" %(id))
+            if id in self.tasked_set:
+                print("已经存在的数据 %s" %(id))
+                continue
             self.tasked_set.add(id)
 
             userinfo_url='https://www.zhihu.com/people/{}/answers'.format(id)
@@ -38,30 +44,41 @@ class ZhSpider(scrapy.Spider):
         #//*[@id="Profile-following"]/div[2]/div[2]/div/div/div[2]/h2/div/span/div/div/a/@href
         #//*[@id="Popover-24089-95956-toggle"]
         #//*[@id="Popover-24089-95956-toggle"]/a
+        #print(response.text)
         co=sel.xpath('//*[@id="root"]/div/main/div/div/div[2]').extract_first()
-        pattern=re.compile(u'<a class="UserLink-link" target="_blank" href="/people/(.*?)">.*?</a>',re.S)
-        l=re.findall(pattern,co)
+        patten=re.compile(u'<a class="UserLink-link" target="_blank" href="/people/(.*?)">.*?</a>',re.S)
+        l=re.findall(patten,co)
         #l=sel.xpath('//*[@id="Profile-following"]/div[2]/div[2]/div/div/div[2]/h2/div/span/div/div/a/@href')
         for i in l:
-            if i not in self.tasked_set:
+            if str(i) not in self.tasked_set and str(i) not in self.task_set:
                 self.task_set.add(i)
+                print("**********用户库**********")
+                print(str(self.task_set))
+                print("********************")
 
     def User_parse(self, response):
         item=response.meta["item"]
         sel=scrapy.selector.Selector(response)
         nick_name=sel.xpath('//*[@id="ProfileHeader"]/div/div[2]/div/div[2]/div[1]/h1/span[1]/text()').extract_first()
         print(nick_name)
+        #item['Nick_name']=nick_name
         summary=sel.xpath('//*[@id="ProfileHeader"]/div/div[2]/div/div[2]/div[1]/h1/span[2]/text()').extract_first()
         print(summary)
+        item['Summary']=summary
         item['Nick_name']=nick_name
-        print(sel.xpath( '//span[@class="location item"]/@title').extract_first())
+        # print(sel.xpath( '//span[@class="location item"]/@title').extract_first())
         co=sel.xpath('//*[@id="ProfileHeader"]/div/div[2]/div/div[2]/div[2]').extract_first()
-        print("**********************")
-        print(co)
-        print('**********************')
+        # print("**********************")
+        # print(co)
+        # print('**********************')
         patten=re.compile(u'.*?</div>(.*?)<div.*?>',re.S)
         l=re.findall(patten,co)
+        #print(str(l))
+        print("**********************")
         print(str(l))
+        item['Content']=str(l)
+        print('**********************')
+        yield item
         #print(sel.xpath('//*[@id="ProfileHeader"]/div/div[2]/div/div[2]/div[2]/span/div/div[2]/div').extract_first())
         #print(sel.xpath('//*[@id="ProfileHeader"]/div/div[2]/div/div[2]/div[2]/span/div/div[3]/div').extract_first())
         #print(sel.xpath('//*[@id="ProfileHeader"]/div/div[2]/div/div[2]/div[2]/span/div/div[4]/div/div').extract_first())
