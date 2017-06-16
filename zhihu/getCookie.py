@@ -15,17 +15,14 @@ headers={
     'x-hd-token':'hello',
 }
 
-user=[
-    'Kirio','sw2016','2051750893'
-]
-b=open('user','a')
+
 #下面写入账号密码
 
 post_data={
     '_xsrf':'***',
-    'password':'chenbo01',
+    'password':'****',
     'captcha':'***',
-    'phone_num':'18079954801',
+    'phone_num':'*****',
 }
 
 req=requests.Session()

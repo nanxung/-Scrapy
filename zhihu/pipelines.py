@@ -17,7 +17,7 @@ class MysqlPipeline(object):
             host='localhost',   #本地127.0.0.1
             port=3306,          #默认3306端口
             user='root',        #mysql最高权限用户
-            passwd='chenbo01',  #root用户密码
+            passwd='****',  #root用户密码
             db='zh',       #database name
             charset='utf8'
             )
@@ -28,13 +28,13 @@ class MysqlPipeline(object):
 
     def _conditional_insert(self,tx,item):
 
-        sql="insert into User(id,url,nick_name,summary,content) values(%s,%s,%s,%s,%s)"
+        sql="insert into user(id,url,nick_name,summary,content) values(%s,%s,%s,%s,%s)"
         params=(item["Id"],item["Url"],item['Nick_name'],item['Summary'],item['Content'])
         tx.execute(sql,params)
         print('已经插入一条数据!')
         tx.close()
         self.conn.commit()
-        self.conn.close()
+      #  self.conn.close()
         
     #错误处理方法
     def _handle_error(self, failue, item, spider):
